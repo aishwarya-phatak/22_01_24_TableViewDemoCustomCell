@@ -39,6 +39,7 @@ class ViewController: UIViewController {
 
 //MARK : UITableViewDataSource
 extension ViewController:UITableViewDataSource{
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menuItems.count
     }
@@ -52,6 +53,16 @@ extension ViewController:UITableViewDataSource{
         menuTableViewCell?.menuItemPriceLabel.text = String(menuItems[indexPath.row].foodItemPrice)
     
         return menuTableViewCell!
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        //check for editing Style
+        if editingStyle == .delete{
+            menuTableView.beginUpdates()             //to start updating tableview
+            menuTableView.deleteRows(at: [indexPath], with: .fade)
+            self.menuItems.remove(at: indexPath.row)
+            menuTableView.endUpdates()               //to end updating tableview
+        }
     }
 }
 
